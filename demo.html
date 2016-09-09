@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="css/dragslot.css">
+</head>
+<body>
+	<div id="dragslot" class="container">
+		<div class="slot">
+			<ul class="slot-list">
+				<li class="slot-item">aaa</li>
+				<li class="slot-item">ccc</li>
+				<li class="slot-item">bbb</li>
+			</ul>
+		</div>
+		<div class="slot"></div>
+		<div class="slot"></div>
+	</div>
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="js/dragslot.js"></script>
+	<script>
+		jQuery(function($){
+			$('#dragslot').dragslot();
+		});
+	</script>
+</body>
+</html>
