@@ -115,7 +115,7 @@
                     list = $(document.createElement('lo')).addClass('slot-list');
                     list.append(this.placeEl);
                     this.pointEl.append(list);
-                    list.closest('.slot').removeClass('empty-slot');
+                    this.toSlot = this.pointEl.closest('.slot');
                 }
                 else if (before) {
                     this.pointEl.before(this.placeEl);
@@ -131,6 +131,9 @@
             this.dragEl.remove();
             this.dragEl = null;
             this.pointEl = null;
+             if (this.toSlot.hasClass('empty-slot')) {
+                this.toSlot.removeClass('empty-slot');
+            }
             if(this.slotlist.children().length==0){
             	this.slotlist.closest('.slot').addClass('empty-slot');
             	this.slotlist[0].parentNode.removeChild(this.slotlist[0]);
