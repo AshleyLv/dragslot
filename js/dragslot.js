@@ -5,22 +5,17 @@
 	
 	var clientX,clientY;
 	var defaults = {
-
-	}
-	var hasPointerEvents = (function()
-    {
-        var el    = document.createElement('div'),
-            docEl = document.documentElement;
-        if (!('pointerEvents' in el.style)) {
-            return false;
-        }
-        el.style.pointerEvents = 'auto';
-        el.style.pointerEvents = 'x';
-        docEl.appendChild(el);
-        var supports = window.getComputedStyle && window.getComputedStyle(el, '').pointerEvents === 'auto';
-        docEl.removeChild(el);
-        return !!supports;
-    })();
+		slotItemClass : 'slot-item',
+		placeElClass : 'place-el',
+		dragItemClass : 'drag-item',
+		slotListClass : 'slot-list',
+		slotHandlerClass : 'slot-handler',
+		emptySlotClass : 'empty-slot',
+		slotClass : 'slot',
+		slotItem : 'li',
+		slotList : 'ol'
+ 	}
+	
 	function Dragslot(element,options){
 		this.w  = $(window);
 		this.el = $(element);
@@ -30,10 +25,10 @@
 	Dragslot.prototype = {
 		init : function(){
 			var slotContainer = this;
-			slotContainer.placeEl = $('<div class="placeEl"/>');
+			slotContainer.placeEl = $('<div class="'+ slotContainer.options.placeElClass +'"/>');
 			var onStartEvent = function(e){
 				var handle = $(e.target);
-				if(!handle.closest('.slot-item')){
+				if(!handle.closest('.' + slotContainer.options.slotItemClass)){
 					return;
 				}
 
@@ -63,18 +58,15 @@
 		},
 		dragStart : function(e){
 			var target = $(e.target),
-			dragItem = target.closest('.slot-item');
+			dragItem = target.closest('.' + this.options.slotItemClass);
 			this.placeEl.css('height', dragItem.height());
-			this.dragEl = $(document.createElement('div')).addClass('slot-item drag-item');
-			this.slotlist = target.closest('.slot-list');
+			this.dragEl = $(document.createElement('div')).addClass(this.options.slotItemClass + ' ' + this.options.dragItemClass);
+			this.slotlist = target.closest('.' + this.options.slotListClass);
 			dragItem.after(this.placeEl);
-			var w = dragItem.width();
-			dragItem.css('width',w + 'px');
+			dragItem.css('width',dragItem.width() + 'px');
 			dragItem[0].parentNode.removeChild(dragItem[0]);
 			dragItem.appendTo(this.dragEl);
 			$(document.body).append(this.dragEl);
-			var offsetX = e.offsetX !== undefined ? e.offsetX : e.pageX - target.offset().left;
-			var offsetY = e.offsetY !== undefined ? e.offsetY : e.pageY - target.offset().top;
 			clientX = e.clientX;
 			clientY = e.clientY;
 			this.dragEl.css({
@@ -98,20 +90,20 @@
 
             this.dragEl[0].style.visibility = 'visible';
 
-			if (this.pointEl.closest('.slot-handler').length) {
-                this.pointEl = this.pointEl.closest('.slot-handler').parent('li');
+			if (this.pointEl.closest('.' + this.options.slotHandlerClass).length) {
+                this.pointEl = this.pointEl.closest('.' + this.options.slotHandlerClass).parent(this.options.slotItem);
             }
-            if (this.pointEl.hasClass('empty-slot')) {
+            if (this.pointEl.hasClass(this.options.emptySlotClass)) {
                 isEmpty = true;
             }
-             else if (!this.pointEl.length || !this.pointEl.hasClass('slot-item')) {
+             else if (!this.pointEl.length || !this.pointEl.hasClass(this.options.slotItemClass)) {
                 return;
             }
              var before = e.pageY < (this.pointEl.offset().top + this.pointEl.height() / 2);
                     parent = this.placeEl.parent();
 
              if (isEmpty) {
-                    list = $(document.createElement('lo')).addClass('slot-list');
+                    list = $(document.createElement(this.options.slotList)).addClass(this.options.slotListClass);
                     list.append(this.placeEl);
                     this.pointEl.append(list);
                 }
@@ -121,20 +113,20 @@
                 else {
                     this.pointEl.after(this.placeEl);
                 }
-                this.toSlot = this.pointEl.closest('.slot');
+                this.toSlot = this.pointEl.closest('.' + this.options.slotClass);
 		},
 		dragEnd : function(e){
-			var el = this.dragEl.children('.slot-item').first();
+			var el = this.dragEl.children('.' + this.options.slotItemClass).first();
             el[0].parentNode.removeChild(el[0]);
             this.placeEl.replaceWith(el);
             this.dragEl.remove();
             this.dragEl = null;
             this.pointEl = null;
-            if (this.toSlot.hasClass('empty-slot')) {
-                this.toSlot.removeClass('empty-slot');
+            if (this.toSlot.hasClass(this.options.emptySlotClass)) {
+                this.toSlot.removeClass(this.options.emptySlotClass);
             }
             if(this.slotlist.children().length==0){
-            	this.slotlist.closest('.slot').addClass('empty-slot');
+            	this.slotlist.closest('.' + this.options.slotClass).addClass(this.options.emptySlotClass);
             	this.slotlist[0].parentNode.removeChild(this.slotlist[0]);
             }
 		}

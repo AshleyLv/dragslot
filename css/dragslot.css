@@ -24,7 +24,7 @@ li.slot-item:not(:last-child){
 	position: absolute;
 	opacity: .8;
 }
-.placeEl{
-	background-color: #abcfe8;
+.place-el{
+	/* background-color: #abcfe8; */
 	border: 2px dashed #349ce4;
 }
