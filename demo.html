@@ -5,21 +5,117 @@
 
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="css/dragslot.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+<section class="demo-header">
+	
+</section>
+<section class="demo">
 	<div id="dragslot" class="container">
-		<div class="slot">
+		
+			<div class="slot-title bg-red border-red">Todo</div>
+			<div class="slot-title bg-yellow border-yellow">Doing</div>
+			<div class="slot-title bg-green border-green">Done</div>
+		
+		
+		<div class="slot border-red">
 			<ul class="slot-list">
-				<li class="slot-item"><div class="slot-handler">aaa</div></li>
-				<li class="slot-item"><div class="slot-handler">ccc</div></li>
-				<li class="slot-item"><div class="slot-handler">bbb</div></li>
+				<li class="slot-item"><div class="slot-handler clearfix">
+				<div class="avator">
+					<img src="img/avatar1.jpg"/>
+				</div>
+				<div class="content">
+					<div class="item-title">UI design</div>
+
+					<p>finish ui design of dashboard page</p>
+				</div>
+					
+				</div></li>
+				<li class="slot-item"><div class="slot-handler">
+					<div class="slot-handler clearfix">
+				<div class="avator">
+					<img src="img/avatar2.jpg"/>
+				</div>
+				<div class="content">
+					<div class="item-title">UI design</div>
+
+					<p>finish ui design of dashboard page</p>
+				</div>
+					
+				</div>
+				</div></li>
+				<li class="slot-item"><div class="slot-handler">
+					<div class="slot-handler clearfix">
+				<div class="avator">
+					<img src="img/avatar3.jpg"/>
+				</div>
+				<div class="content">
+					<div class="item-title">UI design</div>
+
+					<p>finish ui design of dashboard page</p>
+				</div>
+					
+				</div>
+				</div>
 			</ul>
 		</div>
-		<div class="slot empty-slot"></div>
-		<div class="slot empty-slot"></div>
+		
+		<div class="slot border-yellow">
+		<ul class="slot-list">
+			<li class="slot-item"><div class="slot-handler">
+					<div class="slot-handler clearfix">
+				<div class="avator">
+					<img src="img/avatar5.jpg"/>
+				</div>
+				<div class="content">
+					<div class="item-title">UI design</div>
+
+					<p>finish ui design of dashboard page</p>
+				</div>
+					
+				</div>
+				</div></li>
+				<li class="slot-item"><div class="slot-handler">
+					<div class="slot-handler clearfix">
+				<div class="avator">
+					<img src="img/avatar6.jpg"/>
+				</div>
+				<div class="content">
+					<div class="item-title">UI design</div>
+
+					<p>finish ui design of dashboard page</p>
+				</div>
+					
+				</div>
+				</div></li>
+				</ul>
+		</div>
+		
+		<div class="slot order-green">
+		<ul class="slot-list">
+			</li>
+				<li class="slot-item"><div class="slot-handler">
+					<div class="slot-handler clearfix">
+				<div class="avator">
+					<img src="img/avatar4.jpg"/>
+				</div>
+				<div class="content">
+					<div class="item-title">UI design</div>
+
+					<p>finish ui design of dashboard page</p>
+				</div>
+					
+				</div>
+				</div></li>
+				</ul>
+		</div>
 	</div>
+</section>
+	
 	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
 	<script type="text/javascript" src="js/dragslot.js"></script>
+
 	<script>
 		jQuery(function($){
 			$('#dragslot').dragslot();

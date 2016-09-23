@@ -1,0 +1,80 @@
+body{
+	font-family: 'Microsoft Yahei';
+}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.container{
+	width: 80%;
+    min-height: 500px;
+    background: #fff;
+    margin: 0 auto;
+}
+ul,li {
+	list-style: none;
+}
+.slot{
+	width: 30%;
+    min-height: 600px;
+    float: left;
+    border: 2px solid #0abebf;
+    padding: 1px;
+}
+.empty-slot{
+	border:  1px dashed #ddd;
+}
+.demo-header{
+	background-color: pink;
+	width:100%;
+	height: 300px;
+	margin-bottom: 30px;
+}
+.item-title{
+	font-size: 20px;
+}
+.slot-handler p{
+	margin: 0;
+	font-size: 14px;
+}
+.avator{
+	width: 20%;
+	float: left;
+}
+.avator>img{
+	width:50px;
+	    margin-top: 20px;
+}
+.content{
+	width:80%;
+	float: left;
+}
+.border-yellow{
+	border: 2px solid #ecdb50;
+}
+.border-red{
+	border: 2px solid #ea7c7c;
+}
+.border-green{
+	border: 2px solid #61d486;
+}
+.bg-yellow{
+	background-color: #ecdb50;
+}
+.bg-red{
+	background-color: #ea7c7c;
+}
+.bg-green{
+	background-color: #61d486;
+}
+.slot-title{
+	float: left;
+    width: 30%;
+    color: #fff;
+    padding: 10px 1px;
+    min-height: 30px;
+    font-size: 20px
+}
+.slot-title:not(:nth-child(3)){
+	margin-right: 3%;
+}
+
+
+

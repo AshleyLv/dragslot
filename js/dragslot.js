@@ -33,7 +33,7 @@
 			slotContainer.placeEl = $('<div class="placeEl"/>');
 			var onStartEvent = function(e){
 				var handle = $(e.target);
-				if(!handle.hasClass('slot-item') && !handle.parent().hasClass('slot-item')){
+				if(!handle.closest('.slot-item')){
 					return;
 				}
 
@@ -92,15 +92,14 @@
 			clientX = newClientX;
 			clientY = newClientY;
 			var isEmpty;
-			 // if (!hasPointerEvents) {
-                this.dragEl[0].style.visibility = 'hidden';
-            // }
+
+            this.dragEl[0].style.visibility = 'hidden';
 			this.pointEl = $(document.elementFromPoint(e.pageX - document.body.scrollLeft, e.pageY - (window.pageYOffset || document.documentElement.scrollTop)));
-			// if (!hasPointerEvents) {
-                this.dragEl[0].style.visibility = 'visible';
-            // }
-			if (this.pointEl.hasClass('slot-handler')) {
-                this.pointEl = this.pointEl.parent('li');
+
+            this.dragEl[0].style.visibility = 'visible';
+
+			if (this.pointEl.closest('.slot-handler').length) {
+                this.pointEl = this.pointEl.closest('.slot-handler').parent('li');
             }
             if (this.pointEl.hasClass('empty-slot')) {
                 isEmpty = true;
@@ -115,7 +114,6 @@
                     list = $(document.createElement('lo')).addClass('slot-list');
                     list.append(this.placeEl);
                     this.pointEl.append(list);
-                    this.toSlot = this.pointEl.closest('.slot');
                 }
                 else if (before) {
                     this.pointEl.before(this.placeEl);
@@ -123,6 +121,7 @@
                 else {
                     this.pointEl.after(this.placeEl);
                 }
+                this.toSlot = this.pointEl.closest('.slot');
 		},
 		dragEnd : function(e){
 			var el = this.dragEl.children('.slot-item').first();
@@ -131,7 +130,7 @@
             this.dragEl.remove();
             this.dragEl = null;
             this.pointEl = null;
-             if (this.toSlot.hasClass('empty-slot')) {
+            if (this.toSlot.hasClass('empty-slot')) {
                 this.toSlot.removeClass('empty-slot');
             }
             if(this.slotlist.children().length==0){
