@@ -72,7 +72,7 @@
 			dragItem.appendTo(this.dragEl);
 			$(document.body).append(this.dragEl);
 			clientX = e.clientX;
-			clientY = e.clientY;
+			clientY = e.clientY + document.body.scrollTop;
 			this.dragEl.css({
 				'left' : clientX,
 				'top'  : clientY
@@ -80,7 +80,7 @@
 		},
 		dragMove : function(e){
 			var newClientX = e.clientX,
-			newClientY = e.clientY;
+			newClientY = e.clientY + document.body.scrollTop;
 			var left = parseInt(this.dragEl[0].style.left) || 0;
 			var top = parseInt(this.dragEl[0].style.top) || 0;
 			this.dragEl[0].style.left = left + (newClientX - clientX) + 'px';
@@ -90,7 +90,7 @@
 			var isEmpty;
 
             this.dragEl[0].style.visibility = 'hidden';
-			this.pointEl = $(document.elementFromPoint(e.pageX - document.body.scrollLeft, e.pageY - (window.pageYOffset || document.documentElement.scrollTop)));
+			this.pointEl = $(document.elementFromPoint(e.pageX - document.body.scrollLeft, e.pageY - (window.pageYOffset || document.body.scrollTop)));
 
             this.dragEl[0].style.visibility = 'visible';
 
