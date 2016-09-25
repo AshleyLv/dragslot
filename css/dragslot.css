@@ -1,14 +1,13 @@
 
 ul.slot-list{
 	list-style: none;
-    padding-left: 0;
+    padding: 0;
     font-size: 20px;
     cursor:pointer;
-    margin-top: 0;
+    margin: 0;
 }
 li.slot-item{
-	padding-left: 10px;
-	line-height: 48px;
+	padding: 1px 10px;
 	border: 1px solid #18a0b7;
     border-left: 5px solid #4bcce2;
 
