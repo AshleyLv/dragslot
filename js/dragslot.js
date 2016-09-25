@@ -13,7 +13,8 @@
 		emptySlotClass : 'empty-slot',
 		slotClass : 'slot',
 		slotItem : 'li',
-		slotList : 'ol'
+		slotList : 'ul',
+		dropCallback    : null
  	}
 	
 	function Dragslot(element,options){
@@ -64,7 +65,10 @@
 			this.slotlist = target.closest('.' + this.options.slotListClass);
 			dragItem.after(this.placeEl);
 			dragItem.css('width',dragItem.width() + 'px');
-			dragItem[0].parentNode.removeChild(dragItem[0]);
+			if(dragItem[0].parentNode){
+				dragItem[0].parentNode.removeChild(dragItem[0]);
+			}
+			
 			dragItem.appendTo(this.dragEl);
 			$(document.body).append(this.dragEl);
 			clientX = e.clientX;
@@ -116,18 +120,29 @@
                 this.toSlot = this.pointEl.closest('.' + this.options.slotClass);
 		},
 		dragEnd : function(e){
-			var el = this.dragEl.children('.' + this.options.slotItemClass).first();
+			var self = this;
+			var el = self.dragEl.children('.' + self.options.slotItemClass).first();
             el[0].parentNode.removeChild(el[0]);
             this.placeEl.replaceWith(el);
-            this.dragEl.remove();
-            this.dragEl = null;
-            this.pointEl = null;
-            if (this.toSlot.hasClass(this.options.emptySlotClass)) {
-                this.toSlot.removeClass(this.options.emptySlotClass);
+            
+            self.dragEl.remove();
+            if($.isFunction(self.options.dropCallback)) {
+              var itemInfo = {
+              	dragItem : el,
+              	sourceSlot : self.slotlist.closest('.slot'),
+              	destinationSlot : self.toSlot,
+              	dragItemId : el.attr('id') 
+              } 
+              self.options.dropCallback.call(self, itemInfo);
             }
-            if(this.slotlist.children().length==0){
-            	this.slotlist.closest('.' + this.options.slotClass).addClass(this.options.emptySlotClass);
-            	this.slotlist[0].parentNode.removeChild(this.slotlist[0]);
+            self.dragEl = null;
+            self.pointEl = null;
+            if (self.toSlot.hasClass(self.options.emptySlotClass)) {
+                self.toSlot.removeClass(self.options.emptySlotClass);
+            }
+            if(self.slotlist.children().length==0){
+            	self.slotlist.closest('.' + self.options.slotClass).addClass(self.options.emptySlotClass);
+            	self.slotlist[0].parentNode.removeChild(self.slotlist[0]);
             }
 		}
 	}

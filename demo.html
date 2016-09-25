@@ -6,12 +6,21 @@
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="css/dragslot.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/highlight-railscasts.css">
 </head>
 <body>
 <section class="demo-header">
-	
+	<h1>Drag slot</h1>
+	<p>It is a jQuery plugin that allows you to drag items between those slots.<br/><br/>
+	Which scenar will it be used for?<br/>
+		- As a todo list<br/>
+		- As a schedule borad<br/>
+		- For Team management as a schedule dashboard. 
+
+	 </p>
+	 <a id="download" href="https://github.com/AshleyLv/dragslot" target="_blank">Download Dragslot</a>
 </section>
-<section class="demo">
+<section class="demo clearfix">
 	<div id="dragslot" class="container">
 		
 			<div class="slot-title bg-red border-red">Todo</div>
@@ -21,7 +30,7 @@
 		
 		<div class="slot border-red">
 			<ul class="slot-list">
-				<li class="slot-item"><div class="slot-handler clearfix">
+				<li class="slot-item" id="a"><div class="slot-handler clearfix">
 				<div class="avator">
 					<img src="img/avatar1.jpg"/>
 				</div>
@@ -38,9 +47,9 @@
 					<img src="img/avatar2.jpg"/>
 				</div>
 				<div class="content">
-					<div class="item-title">UI design</div>
+					<div class="item-title">Bug fixing</div>
 
-					<p>finish ui design of dashboard page</p>
+					<p>Fix bugs of demo page</p>
 				</div>
 					
 				</div>
@@ -51,13 +60,13 @@
 					<img src="img/avatar3.jpg"/>
 				</div>
 				<div class="content">
-					<div class="item-title">UI design</div>
+					<div class="item-title">Implementation</div>
 
-					<p>finish ui design of dashboard page</p>
+					<p>implement list item drop function</p>
 				</div>
 					
 				</div>
-				</div>
+				</li>
 			</ul>
 		</div>
 		
@@ -71,7 +80,7 @@
 				<div class="content">
 					<div class="item-title">UI design</div>
 
-					<p>finish ui design of dashboard page</p>
+					<p>design the area filter ui</p>
 				</div>
 					
 				</div>
@@ -82,9 +91,9 @@
 					<img src="img/avatar6.jpg"/>
 				</div>
 				<div class="content">
-					<div class="item-title">UI design</div>
+					<div class="item-title">Implementation</div>
 
-					<p>finish ui design of dashboard page</p>
+					<p>implement sort of list data</p>
 				</div>
 					
 				</div>
@@ -103,7 +112,7 @@
 				<div class="content">
 					<div class="item-title">UI design</div>
 
-					<p>finish ui design of dashboard page</p>
+					<p>design the Carousel with Teddy bear pictures</p>
 				</div>
 					
 				</div>
@@ -112,13 +121,82 @@
 		</div>
 	</div>
 </section>
-	
+<section class="code">
+	<h1>How to use it:</h1>
+	<h3>1. Including dragslot into your project.</h3>
+	<pre><code class="html">
+&lt;link rel="stylesheet" type="text/css" href="css/dragslot.css"&gt;
+&lt;script type="text/javascript" src="js/dragslot.js"&gt;&lt;/script&gt;
+	</code></pre>
+	<h3>2. Html code</h3>
+	<pre><code class="html">
+&lt;div class="slot"&gt;
+ &lt;ul class="slot-list"&gt;
+  &lt;li class="slot-item"&gt;
+   &lt;div class="slot-handler"&gt;
+	drag item 1
+   &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li class="slot-item"&gt;
+   &lt;div class="slot-handler"&gt;
+	drag item 2
+   &lt;/div&gt;
+   &lt;/li&gt;
+ &lt;/ul&gt;
+&lt;/div&gt;
+	</code></pre>
+	<h3>3. init dragslot</h3>
+	<pre><code class="javascript">
+$('#dragslot').dragslot({
+  slotItemClass : 'slot-item',
+  placeElClass : 'place-el',
+  dragItemClass : 'drag-item',
+  slotListClass : 'slot-list',
+  slotHandlerClass : 'slot-handler',
+  emptySlotClass : 'empty-slot',
+  slotClass : 'slot',
+  slotItem : 'li',
+  slotList : 'ul',
+  dropCallback: function(el){
+    alert('dragItem : ' + el.dragItemId);
+  }
+});
+	</code></pre>
+	<h3>4. dragslot arguments</h3>
+	<dl>
+		<dt>slotItemClass</dt>
+		<dd>css class of slot items, the default value is 'slot-item'</dd>
+		<dt>placeElClass</dt>
+		<dd>css class of slot item placeholder, the default value is 'place-el'</dd>
+		<dt>dragItemClass</dt>
+		<dd>css class of slot item when it is moving, the default value is 'drag-item' </dd>
+		<dt>slotListClass</dt>
+		<dd>css class of slot list, the default value is 'slot-list'</dd>
+		<dt>slotHandlerClass</dt>
+		<dd>css class of the wrapper element of slot item, the default value is 'slot-handler'</dd>
+		<dt>emptySlotClass</dt>
+		<dd>css class of the empty slot, the default value is 'empty-slot'</dd>
+		<dt>slotClass</dt>
+		<dd>scc class of slot, the default value is 'slot'</dd>
+		<dt>slotItem</dt>
+		<dd>the html element of slot item, the default value is 'li'</dd>
+		<dt>slotList</dt>
+		<dd>the html element of slot list, the default value is 'ul'</dd>
+		<dt>dropCallback</dt>
+		<dd>callback function when the item is dropped</dd>
+	</dl>
+</section>
 	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="js/highlight.pack.js"></script>
 	<script type="text/javascript" src="js/dragslot.js"></script>
-
+	<script>hljs.initHighlightingOnLoad();</script>
 	<script>
 		jQuery(function($){
-			$('#dragslot').dragslot();
+			$('#dragslot').dragslot({
+				dropCallback: function(el){
+				//	alert(el);
+				}
+			});
 		});
 	</script>
 </body>
