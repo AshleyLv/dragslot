@@ -94,18 +94,18 @@
                  var before = e.pageY < (this.pointEl.offset().top + this.pointEl.height() / 2);
                     parent = this.placeholder.parent();
 
-             if (this.pointEl.hasClass(this.options.emptySlotClass)) {
-                    list = $(document.createElement(this.options.slotList)).addClass(this.options.slotListClass);
-                    list.append(this.placeholder);
-                    this.pointEl.append(list);
-                }
-                else if (before) {
+             
+                if (before) {
                     this.pointEl.before(this.placeholder);
                 }
                 else {
                     this.pointEl.after(this.placeholder);
                 }
-            } else if(this.pointEl.hasClass(this.options.slotClass)){
+            } else if (this.pointEl.hasClass(this.options.emptySlotClass)) {
+                    list = $(document.createElement(this.options.slotList)).addClass(this.options.slotListClass);
+                    list.append(this.placeholder);
+                    this.pointEl.append(list);
+                }else if(this.pointEl.hasClass(this.options.slotClass)){
             		this.pointEl = this.pointEl.children(this.options.slotList).children().last();
             		this.pointEl.after(this.placeholder);
             } else {
