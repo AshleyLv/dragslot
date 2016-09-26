@@ -1,18 +1,28 @@
 
-ul.slot-list{
+.slot{
+	width: 30%;
+    min-height: 600px;
+    float: left;
+    border: 2px solid #0abebf;
+    padding: 1px;
+}
+.empty-slot{
+	border:  1px dashed #ddd;
+}
+
+.slot-list{
 	list-style: none;
     padding: 0;
     font-size: 20px;
     cursor:pointer;
     margin: 0;
 }
-li.slot-item{
+.slot-item{
 	padding: 1px 10px;
 	border: 1px solid #18a0b7;
-    border-left: 5px solid #4bcce2;
 
 }
-li.slot-item:not(:last-child){
+.slot-item:not(:last-child){
 	border-bottom-color: transparent;
 }
 
@@ -23,7 +33,6 @@ li.slot-item:not(:last-child){
 	position: absolute;
 	opacity: .8;
 }
-.place-el{
-	/* background-color: #abcfe8; */
+.placeholder{
 	border: 2px dashed #349ce4;
 }

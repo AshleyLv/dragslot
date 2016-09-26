@@ -6,7 +6,7 @@
 	var clientX,clientY;
 	var defaults = {
 		slotItemClass : 'slot-item',
-		placeElClass : 'place-el',
+		placeholderClass : 'placeholder',
 		dragItemClass : 'drag-item',
 		slotListClass : 'slot-list',
 		slotHandlerClass : 'slot-handler',
@@ -14,118 +14,113 @@
 		slotClass : 'slot',
 		slotItem : 'li',
 		slotList : 'ul',
-		dropCallback    : null
+		dropCallback : null
  	}
 	
 	function Dragslot(element,options){
-		this.w  = $(window);
-		this.el = $(element);
+		this.element = $(element);
 		this.options = $.extend({}, defaults, options);
 		this.init();
 	}
 	Dragslot.prototype = {
 		init : function(){
 			var slotContainer = this;
-			slotContainer.placeEl = $('<div class="'+ slotContainer.options.placeElClass +'"/>');
-			var onStartEvent = function(e){
-				var handle = $(e.target);
-				if(!handle.closest('.' + slotContainer.options.slotItemClass)){
+			slotContainer.placeholder = $('<div class="'+ slotContainer.options.placeholderClass +'"/>');
+			var dragStartEvent = function(e){
+				var item = $(e.target);
+				if(!item.closest('.' + slotContainer.options.slotItemClass)){
 					return;
 				}
 
 				e.preventDefault();
-				slotContainer.dragStart(e);
+				slotContainer._dragStart(e);
 				
 			};
-			var onMoveEvent = function(e){
-				var handle = $(e.target);
-				if(slotContainer.dragEl){
+			var dragMoveEvent = function(e){
+				if(slotContainer.dragElement){
 						e.preventDefault();
-						slotContainer.dragMove(e);
+						slotContainer._dragMove(e);
 					}
 			};
-			var onEndEvent = function(e){
-				var handle = $(e.target);
-				if(slotContainer.dragEl){
+			var dragEndEvent = function(e){
+				if(slotContainer.dragElement){
 						e.preventDefault();
-						slotContainer.dragEnd(e);
+						slotContainer._dragEnd(e);
 					}
 				
 			};
-			slotContainer.el.on(eStart, onStartEvent);
-			slotContainer.w.on(eMove, onMoveEvent);
-			slotContainer.w.on(eEnd, onEndEvent);
+			slotContainer.element.on(eStart, dragStartEvent);
+			$(window).on(eMove, dragMoveEvent);
+			$(window).on(eEnd, dragEndEvent);
 
 		},
-		dragStart : function(e){
+		_dragStart : function(e){
 			var target = $(e.target),
-			dragItem = target.closest('.' + this.options.slotItemClass);
-			this.placeEl.css('height', dragItem.height());
-			this.dragEl = $(document.createElement('div')).addClass(this.options.slotItemClass + ' ' + this.options.dragItemClass);
+			 dragItem = target.closest('.' + this.options.slotItemClass);
+			this.placeholder.css('height', dragItem.height());
+			this.dragElement = $(document.createElement('div')).addClass(this.options.dragItemClass);
 			this.slotlist = target.closest('.' + this.options.slotListClass);
-			dragItem.after(this.placeEl);
+			dragItem.after(this.placeholder);
 			dragItem.css('width',dragItem.width() + 'px');
 			if(dragItem[0].parentNode){
 				dragItem[0].parentNode.removeChild(dragItem[0]);
 			}
-			
-			dragItem.appendTo(this.dragEl);
-			$(document.body).append(this.dragEl);
-			clientX = e.clientX;
+			dragItem.appendTo(this.dragElement);
+			$(document.body).append(this.dragElement);
+			clientX = e.clientX + document.body.scrollLeft;
 			clientY = e.clientY + document.body.scrollTop;
-			this.dragEl.css({
+			this.dragElement.css({
 				'left' : clientX,
 				'top'  : clientY
 			});
 		},
-		dragMove : function(e){
-			var newClientX = e.clientX,
+		_dragMove : function(e){
+			var newClientX = e.clientX + document.body.scrollLeft,
 			newClientY = e.clientY + document.body.scrollTop;
-			var left = parseInt(this.dragEl[0].style.left) || 0;
-			var top = parseInt(this.dragEl[0].style.top) || 0;
-			this.dragEl[0].style.left = left + (newClientX - clientX) + 'px';
-			this.dragEl[0].style.top = top + (newClientY - clientY) + 'px';
+			var left = parseInt(this.dragElement[0].style.left) || 0;
+			var top = parseInt(this.dragElement[0].style.top) || 0;
+			this.dragElement[0].style.left = left + (newClientX - clientX) + 'px';
+			this.dragElement[0].style.top = top + (newClientY - clientY) + 'px';
 			clientX = newClientX;
 			clientY = newClientY;
-			var isEmpty;
 
-            this.dragEl[0].style.visibility = 'hidden';
-			this.pointEl = $(document.elementFromPoint(e.pageX - document.body.scrollLeft, e.pageY - (window.pageYOffset || document.body.scrollTop)));
+            this.dragElement[0].style.visibility = 'hidden';
+			this.pointEl = $(document.elementFromPoint(e.pageX - document.body.scrollLeft, e.pageY - document.body.scrollTop));
 
-            this.dragEl[0].style.visibility = 'visible';
+            this.dragElement[0].style.visibility = 'visible';
 
-			if (this.pointEl.closest('.' + this.options.slotHandlerClass).length) {
-                this.pointEl = this.pointEl.closest('.' + this.options.slotHandlerClass).parent(this.options.slotItem);
-            }
-            if (this.pointEl.hasClass(this.options.emptySlotClass)) {
-                isEmpty = true;
-            }
-             else if (!this.pointEl.length || !this.pointEl.hasClass(this.options.slotItemClass)) {
-                return;
-            }
-             var before = e.pageY < (this.pointEl.offset().top + this.pointEl.height() / 2);
-                    parent = this.placeEl.parent();
+			if (this.pointEl.closest('.' + this.options.slotHandlerClass).length || this.pointEl.closest('.' + this.options.slotItemClass).length) {
+                this.pointEl = this.pointEl.closest('.' + this.options.slotItemClass);
+                 var before = e.pageY < (this.pointEl.offset().top + this.pointEl.height() / 2);
+                    parent = this.placeholder.parent();
 
-             if (isEmpty) {
+             if (this.pointEl.hasClass(this.options.emptySlotClass)) {
                     list = $(document.createElement(this.options.slotList)).addClass(this.options.slotListClass);
-                    list.append(this.placeEl);
+                    list.append(this.placeholder);
                     this.pointEl.append(list);
                 }
                 else if (before) {
-                    this.pointEl.before(this.placeEl);
+                    this.pointEl.before(this.placeholder);
                 }
                 else {
-                    this.pointEl.after(this.placeEl);
+                    this.pointEl.after(this.placeholder);
                 }
-                this.toSlot = this.pointEl.closest('.' + this.options.slotClass);
-		},
-		dragEnd : function(e){
-			var self = this;
-			var el = self.dragEl.children('.' + self.options.slotItemClass).first();
-            el[0].parentNode.removeChild(el[0]);
-            this.placeEl.replaceWith(el);
+            } else if(this.pointEl.hasClass(this.options.slotClass)){
+            		this.pointEl = this.pointEl.children(this.options.slotList).children().last();
+            		this.pointEl.after(this.placeholder);
+            } else {
+                return;
+            }
             
-            self.dragEl.remove();
+            this.toSlot = this.pointEl.closest('.' + this.options.slotClass);
+		},
+		_dragEnd : function(e){
+			var self = this;
+			var el = self.dragElement.children('.' + self.options.slotItemClass).first();
+            el[0].parentNode.removeChild(el[0]);
+            this.placeholder.replaceWith(el);
+            
+            self.dragElement.remove();
             if($.isFunction(self.options.dropCallback)) {
               var itemInfo = {
               	dragItem : el,
@@ -135,7 +130,7 @@
               } 
               self.options.dropCallback.call(self, itemInfo);
             }
-            self.dragEl = null;
+            self.dragElement = null;
             self.pointEl = null;
             if (self.toSlot.hasClass(self.options.emptySlotClass)) {
                 self.toSlot.removeClass(self.options.emptySlotClass);
@@ -149,8 +144,7 @@
 	
 
 	$.fn.dragslot = function(options){
-		var slot = this;
-		new Dragslot(slot,options);
+		new Dragslot(this,options);
 	}
 
 })(window.jQuery, window, document);
