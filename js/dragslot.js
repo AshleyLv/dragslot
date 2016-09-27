@@ -67,16 +67,16 @@
 			}
 			dragItem.appendTo(this.dragElement);
 			$(document.body).append(this.dragElement);
-			clientX = e.clientX + document.body.scrollLeft;
-			clientY = e.clientY + document.body.scrollTop;
+			clientX = e.clientX + (document.body.scrollLeft || document.documentElement.scrollLeft);
+			clientY = e.clientY + (document.body.scrollTop || document.documentElement.scrollTop); 
 			this.dragElement.css({
 				'left' : clientX,
 				'top'  : clientY
 			});
 		},
 		_dragMove : function(e){
-			var newClientX = e.clientX + document.body.scrollLeft,
-			newClientY = e.clientY + document.body.scrollTop;
+			var newClientX = e.clientX + (document.body.scrollLeft || document.documentElement.scrollLeft),
+			newClientY = e.clientY + (document.body.scrollTop || document.documentElement.scrollTop);
 			var left = parseInt(this.dragElement[0].style.left) || 0;
 			var top = parseInt(this.dragElement[0].style.top) || 0;
 			this.dragElement[0].style.left = left + (newClientX - clientX) + 'px';
@@ -85,7 +85,7 @@
 			clientY = newClientY;
 
             this.dragElement[0].style.visibility = 'hidden';
-			this.pointEl = $(document.elementFromPoint(e.pageX - document.body.scrollLeft, e.pageY - document.body.scrollTop));
+			this.pointEl = $(document.elementFromPoint(e.pageX - (document.body.scrollLeft || document.documentElement.scrollLeft), e.pageY - (document.body.scrollTop || document.documentElement.scrollTop)));
 
             this.dragElement[0].style.visibility = 'visible';
 
@@ -93,7 +93,6 @@
                 this.pointEl = this.pointEl.closest('.' + this.options.slotItemClass);
                  var before = e.pageY < (this.pointEl.offset().top + this.pointEl.height() / 2);
                     parent = this.placeholder.parent();
-
              
                 if (before) {
                     this.pointEl.before(this.placeholder);
@@ -111,7 +110,6 @@
             } else {
                 return;
             }
-            
             this.toSlot = this.pointEl.closest('.' + this.options.slotClass);
 		},
 		_dragEnd : function(e){

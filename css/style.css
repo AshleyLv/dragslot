@@ -6,6 +6,13 @@ body{
 ul,li {
 	list-style: none;
 }
+h1{
+	font-size: 40px;
+}
+dd{
+	font-style: italic;
+	color: #666;
+}
 .clearfix:after{
 	content:".";
 	display:block;
@@ -23,15 +30,13 @@ ul,li {
 
 .demo-header {
     margin-bottom: 80px;
-    height: 270px;
-    color: #c7f326;
-    background: -webkit-linear-gradient(#62b79d 0%, #405f94 100%);
-    background: -o-linear-gradient(#62b79d 0%, #405f94 100%);
-    background: linear-gradient(#62b79d 0%, #405f94 100%);
-    padding: 50px 150px;
+    height: 350px;
+    color: #fff;
+    background-color: #0abebf;
+    padding: 10px 150px;
 }
 #download{
-	background-color: #c7f326;
+	background-color: #b7d06c;
     color: #fff;
     height: 20px;
     display: block;
@@ -116,9 +121,5 @@ li.slot-item:not(:last-child){
 	
 	background-color: #b7d06c;
 	padding: 20px 150px;
-}
-dd{
-	font-style: italic;
-	color: #666;
 }
 
