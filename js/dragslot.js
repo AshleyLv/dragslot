@@ -28,7 +28,7 @@
 			slotContainer.placeholder = $('<div class="'+ slotContainer.options.placeholderClass +'"/>');
 			var dragStartEvent = function(e){
 				var item = $(e.target);
-				if(!item.closest('.' + slotContainer.options.slotItemClass)){
+				if(!item.closest('.' + slotContainer.options.slotItemClass) || e.target.className.indexOf('drag-ignore')!=-1){
 					return;
 				}
 
